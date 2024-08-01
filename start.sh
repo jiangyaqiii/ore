@@ -24,7 +24,7 @@ chmod +x ore_env.priv.sh
 
 ORE_DIR="$HOME/extend-stats/ore-cli"
 ORE_FILE="$ORE_DIR/ore_env.priv.sh"
-read -p "请输入sol的rpc: " rpc
+read -p "请输入sol的rpc(回车即使用默认开发网rpc): " rpc
 rpc=${rpc:-"https://api.devnet.solana.com"}
 
 # 更新 solxen-tx.yaml 文件
