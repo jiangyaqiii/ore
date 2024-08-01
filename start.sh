@@ -31,7 +31,10 @@ rpc=${rpc:-"https://api.devnet.solana.com"}
 sed -i "s|KEY1=.*|KEY1=\~/.config/solana/id.json\|" $ORE_FILE
 sed -i "s|RPC1=.*|RPC1=$rpc|" $ORE_FILE
 
-./miner.sh 1
+screen -dmS "ore" bash -c "./miner.sh 1"
+if ! screen -list | grep -q "ore"; then
+    echo "ore已经启动,screen -r ore 查看"
+fi
 
 
 
