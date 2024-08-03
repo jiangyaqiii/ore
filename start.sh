@@ -9,7 +9,7 @@ solana config set --url d
 
 sudo apt update
 #要输入y 出现额外弹窗
-sudo apt install build-essential
+sudo apt install build-essential -y
 
 export RUST_BACKTRACE=1
 export RUST_BACKTRACE=full
