@@ -1,5 +1,5 @@
 #要回车
-curl --proto '=https" --tlsv1.3 https://sh.rustup.rs -sSf | sh
+curl --proto '=https' --tlsv1.3 https://sh.rustup.rs -sSf | sh
 source "$HOME/.cargo/env"
 sh -c "$(curl -sSfL https://release.solana.com/stable/install)"
 export PATH="/root/.local/share/solana/install/active_release/bin:$PATH"
