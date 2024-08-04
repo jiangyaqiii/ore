@@ -7,7 +7,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify
 sudo apt install cargo -y
 sh -c "$(curl -sSfL https://release.solana.com/stable/install)"
 export PATH="/root/.local/share/solana/install/active_release/bin:$PATH"
-solana-keygen new
+solana-keygen new --no-bip39-passphrase --force
 ##切换至主网
 solana config set --url https://api.mainnet-beta.solana.com
 cargo install ore-cli
