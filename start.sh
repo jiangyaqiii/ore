@@ -69,14 +69,13 @@ read -p "请输入交易的优先费用 (默认设置 1): " custom_priority_fee
 PRIORITY_FEE=${custom_priority_fee:-1}
 
 # 使用 screen 和 Ore CLI 开始挖矿
+export RUST_BACKTRACE=1
+export RUST_BACKTRACE=full
 session_name="ore"
 echo "开始挖矿，会话名称为 $session_name ..."
 
 start="while true; do ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --threads $THREADS; echo '进程异常退出，等待重启' >&2; sleep 1; done"
 screen -dmS "$session_name" bash -c "$start"
-
-export RUST_BACKTRACE=1
-export RUST_BACKTRACE=full
 
 # # ===================================公共模块===监控screen模块======================================================================
 # cd ~
