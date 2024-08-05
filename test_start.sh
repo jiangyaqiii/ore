@@ -69,49 +69,49 @@ read -p "请输入交易的优先费用 (默认设置 1): " custom_priority_fee
 PRIORITY_FEE=${custom_priority_fee:-1}
 
 # 使用 screen 和 Ore CLI 开始挖矿
-#session_name="ore"
-#echo "开始挖矿，会话名称为 $session_name ..."
+session_name="ore"
+echo "开始挖矿，会话名称为 $session_name ..."
 
-#start="while true; do ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --threads $THREADS; echo '进程异常退出，等待重启' >&2; sleep 1; done"
-#screen -dmS "$session_name" bash -c "$start"
+start="while true; do ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --threads $THREADS; echo '进程异常退出，等待重启' >&2; sleep 1; done"
+screen -dmS "$session_name" bash -c "$start"
 
 export RUST_BACKTRACE=1
 export RUST_BACKTRACE=full
 
-# ===================================公共模块===监控screen模块======================================================================
-cd ~
-#监控screen脚本
-echo '#!/bin/bash
-while true
-do
-    if ! screen -list | grep -q "ore"; then
-        echo "Screen session not found, restarting..."
-        # 使用 screen 和 Ore CLI 开始挖矿
-        session_name="ore"
-        echo "开始挖矿，会话名称为 $session_name ..."
+# # ===================================公共模块===监控screen模块======================================================================
+# cd ~
+# #监控screen脚本
+# echo '#!/bin/bash
+# while true
+# do
+#     if ! screen -list | grep -q "ore"; then
+#         echo "Screen session not found, restarting..."
+#         # 使用 screen 和 Ore CLI 开始挖矿
+#         session_name="ore"
+#         echo "开始挖矿，会话名称为 $session_name ..."
 
-        start="while true; do ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --threads $THREADS; echo '进程异常退出，等待重启' >&2; sleep 1; done"
-        screen -dmS "$session_name" bash -c "$start"
-    fi
-    sleep 10  # 每隔10秒检查一次
-done' > monit.sh
-##给予执行权限
-chmod +x monit.sh
-# ================================================================================================================================
-echo '[Unit]
-Description=Ore Monitor Service
-After=network.target
+#         start="while true; do ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --threads $THREADS; echo '进程异常退出，等待重启' >&2; sleep 1; done"
+#         screen -dmS "$session_name" bash -c "$start"
+#     fi
+#     sleep 10  # 每隔10秒检查一次
+# done' > monit.sh
+# ##给予执行权限
+# chmod +x monit.sh
+# # ================================================================================================================================
+# echo '[Unit]
+# Description=Ore Monitor Service
+# After=network.target
 
-[Service]
-Type=simple
-ExecStart=/bin/bash /root/monit.sh
+# [Service]
+# Type=simple
+# ExecStart=/bin/bash /root/monit.sh
 
-[Install]
-WantedBy=multi-user.target' > /etc/systemd/system/ore_monitor.service
-sudo systemctl daemon-reload
-sudo systemctl enable ore_monitor.service
-sudo systemctl start ore_monitor.service
-sudo systemctl status ore_monitor.service
+# [Install]
+# WantedBy=multi-user.target' > /etc/systemd/system/ore_monitor.service
+# sudo systemctl daemon-reload
+# sudo systemctl enable ore_monitor.service
+# sudo systemctl start ore_monitor.service
+# sudo systemctl status ore_monitor.service
 
 echo "挖矿进程已在名为 $session_name 的 screen 会话中后台启动。"
 echo "使用 'screen -r $session_name' 命令重新连接到此会话。"
