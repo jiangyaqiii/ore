@@ -15,6 +15,7 @@ echo "钱包已恢复。"
 echo "请确保你的钱包地址已经充足的 SOL 用于交易费用。"
 
 #------------------------启动服务------------------------
+THREADS=$(lscpu | grep "^CPU(s):" | awk '{print $2}')
 # 使用 screen 和 Ore CLI 开始挖矿
 session_name="ore"
 echo "开始挖矿，会话名称为 $session_name ..."
