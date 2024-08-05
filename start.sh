@@ -14,3 +14,5 @@ cargo install ore-cli
 export PATH="/root/.cargo/bin:$PATH"
 ##测试hash
 ore benchmark --threads 4
+cd
+rm start.sh
