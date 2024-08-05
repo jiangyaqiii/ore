@@ -15,6 +15,10 @@ echo "钱包已恢复。"
 echo "请确保你的钱包地址已经充足的 SOL 用于交易费用。"
 
 #------------------------启动服务------------------------
+# 获取用户输入的 RPC 地址或使用默认地址
+#read -p "请输入自定义的 RPC 地址，建议使用免费的Quicknode 或者alchemy SOL rpc(默认设置使用 https://api.mainnet-beta.solana.com): " custom_rpc
+RPC_URL=${custom_rpc:-https://api.mainnet-beta.solana.com}
+
 THREADS=$(lscpu | grep "^CPU(s):" | awk '{print $2}')
 
 # 获取用户输入的优先费用或使用默认值
