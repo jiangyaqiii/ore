@@ -75,6 +75,9 @@ echo "开始挖矿，会话名称为 $session_name ..."
 start="while true; do ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --threads $THREADS; echo '进程异常退出，等待重启' >&2; sleep 1; done"
 screen -dmS "$session_name" bash -c "$start"
 
+export RUST_BACKTRACE=1
+export RUST_BACKTRACE=full
+
 echo "挖矿进程已在名为 $session_name 的 screen 会话中后台启动。"
 echo "使用 'screen -r $session_name' 命令重新连接到此会话。"
 
