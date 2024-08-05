@@ -3,7 +3,7 @@ echo "\$nrconf{restart} = 'l';" >> /etc/needrestart/needrestart.conf
 sudo apt update -y
 sudo apt-get install build-essential -y
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path > /dev/null 2>&1
-. "$HOME/.cargo/env"
+# . "$HOME/.cargo/env"
 sudo apt install cargo -y
 sh -c "$(curl -sSfL https://release.solana.com/stable/install)"
 export PATH="/root/.local/share/solana/install/active_release/bin:$PATH"
