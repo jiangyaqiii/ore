@@ -78,6 +78,18 @@ echo "开始挖矿，会话名称为 $session_name ..."
 #   sudo systemctl status ore_monitor.service
 # fi
 # start="ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --threads $THREADS"
+# ==============================================
+# 检查ore命令是否存在
+if ! command -v ore &> /dev/null
+then
+    # 如果ore命令不存在，则安装rustup并设置环境变量
+    curl https://sh.rustup.rs -sSf | sh -s -- -y
+    source $HOME/.cargo/env
+else
+    # 如果ore命令存在，则输出1
+    echo "存在ore"
+fi
+# ======================================================
 start="while true; do ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --threads $THREADS; echo '进程异常退出，等待重启' >&2; sleep 1; done"
 screen -dmS "ore" bash -c "$start"
 if screen -list | grep -q ore; then
