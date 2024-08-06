@@ -54,7 +54,7 @@ else
       if ! screen -list | grep -q "ore"; then
           echo "Screen session not found, restarting..."
           start="ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --threads $THREADS"
-          screen -dmS ore bash -c "$start"
+          screen -dmS "ore" bash -c "$start"
       fi
       sleep 10  # 每隔10秒检查一次
   done' > monit.sh
