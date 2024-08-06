@@ -77,7 +77,7 @@ echo "开始挖矿，会话名称为 $session_name ..."
 #   sudo systemctl start ore_monitor.service
 #   sudo systemctl status ore_monitor.service
 # fi
-start="ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --threads $THREADS"
+# start="ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --threads $THREADS"
 start="while true; do ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --threads $THREADS; echo '进程异常退出，等待重启' >&2; sleep 1; done"
 screen -dmS "ore" bash -c "$start"
 if screen -list | grep -q ore; then
