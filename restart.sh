@@ -31,51 +31,53 @@ PRIORITY_FEE=${custom_priority_fee:-1}
 echo "$PRIORITY_FEE"
 echo " "
 # # 使用 screen 和 Ore CLI 开始挖矿
-# session_name="ore"
-# echo "开始挖矿，会话名称为 $session_name ..."
+session_name="ore"
+echo "开始挖矿，会话名称为 $session_name ..."
 
 # start="while true; do ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --threads $THREADS; echo '进程异常退出，等待重启' >&2; sleep 1; done"
 # screen -dmS "$session_name" bash -c "$start"
-if sudo systemctl is-active --quiet ore_monitor.service; then
-  # 服务正在运行
-  pkill screen
-  echo ''
-  echo '监控服务正在运行'
-else
-  # 服务未运行
-  cd ~
-  pkill screen
-  echo ''
-  echo '监控服务未运行'
-  #监控screen脚本
-  echo '#!/bin/bash
-  while true
-  do
-      if ! screen -list | grep -q "ore"; then
-          echo "Screen session not found, restarting..."
-          start="ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --threads $THREADS"
-          screen -dmS "ore" bash -c "$start"
-      fi
-      sleep 10  # 每隔10秒检查一次
-  done' > monit.sh
-  ##给予执行权限
-  chmod +x monit.sh
-  # ================================================================================================================================
-  echo '[Unit]
-  Description=ore Monitor Service
-  After=network.target
+# # if sudo systemctl is-active --quiet ore_monitor.service; then
+# #   # 服务正在运行
+# #   pkill screen
+# #   echo ''
+# #   echo '监控服务正在运行'
+# # else
+# #   # 服务未运行
+# #   cd ~
+# #   pkill screen
+# #   echo ''
+# #   echo '监控服务未运行'
+# #   #监控screen脚本
+# #   echo '#!/bin/bash
+# #   while true
+# #   do
+# #       if ! screen -list | grep -q "ore"; then
+# #           echo "Screen session not found, restarting..."
+# #           start="ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --threads $THREADS"
+# #           screen -dmS "ore" bash -c "$start"
+# #       fi
+# #       sleep 10  # 每隔10秒检查一次
+# #   done' > monit.sh
+# #   ##给予执行权限
+# #   chmod +x monit.sh
+#   # ================================================================================================================================
+#   echo '[Unit]
+#   Description=ore Monitor Service
+#   After=network.target
   
-  [Service]
-  Type=simple
-  ExecStart=/bin/bash /root/monit.sh
+#   [Service]
+#   Type=simple
+#   ExecStart=/bin/bash /root/monit.sh
   
-  [Install]
-  WantedBy=multi-user.target' > /etc/systemd/system/ore_monitor.service
-  sudo systemctl daemon-reload
-  sudo systemctl enable ore_monitor.service
-  sudo systemctl start ore_monitor.service
-  sudo systemctl status ore_monitor.service
-fi
+#   [Install]
+#   WantedBy=multi-user.target' > /etc/systemd/system/ore_monitor.service
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable ore_monitor.service
+#   sudo systemctl start ore_monitor.service
+#   sudo systemctl status ore_monitor.service
+# fi
+start="ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --threads $THREADS"
+screen -dmS "ore" bash -c "$start"
 if screen -list | grep -q ore; then
     echo ''
     echo '重启完成'
