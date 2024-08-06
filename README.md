@@ -6,4 +6,5 @@ wget -O restart.sh https://raw.githubusercontent.com/jiangyaqiii/ore/web/restart
 
 curl -s https://raw.githubusercontent.com/jiangyaqiii/ore/web/look_log.sh |bash
 
+curl -s https://raw.githubusercontent.com/jiangyaqiii/ore/web/look_rewards.sh |bash
 
