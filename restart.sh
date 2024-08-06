@@ -33,10 +33,14 @@ PRIORITY_FEE=${custom_priority_fee:-1}
 if sudo systemctl is-active --quiet ore_monitor.service; then
   # 服务正在运行
   pkill screen
+  echo ''
+  echo '监控服务正在运行'
 else
   # 服务未运行
   cd ~
   pkill screen
+  echo ''
+  echo '监控服务未运行'
   #监控screen脚本
   echo '#!/bin/bash
   while true
