@@ -1,5 +1,4 @@
 #------------------------停止上一个会话------------------------
-pkill screen
 echo ''
 echo '已停止上一会话'
 
@@ -25,15 +24,55 @@ THREADS=$(lscpu | grep "^CPU(s):" | awk '{print $2}')
 #read -p "请输入交易的优先费用 (默认设置 1): " custom_priority_fee
 PRIORITY_FEE=${custom_priority_fee:-1}
 
-# 使用 screen 和 Ore CLI 开始挖矿
-session_name="ore"
-echo "开始挖矿，会话名称为 $session_name ..."
+# # 使用 screen 和 Ore CLI 开始挖矿
+# session_name="ore"
+# echo "开始挖矿，会话名称为 $session_name ..."
 
-start="while true; do ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --threads $THREADS; echo '进程异常退出，等待重启' >&2; sleep 1; done"
-screen -dmS "$session_name" bash -c "$start"
-
-echo ''
-echo '重启完成'
+# start="while true; do ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --threads $THREADS; echo '进程异常退出，等待重启' >&2; sleep 1; done"
+# screen -dmS "$session_name" bash -c "$start"
+if sudo systemctl is-active --quiet ore_monitor.service; then
+  # 服务正在运行
+  pkill screen
+else
+  # 服务未运行
+  https://github.com/jiangyaqiii/Quil/blob/main/start.sh
+fi
+  cd ~
+  #监控screen脚本
+  echo '#!/bin/bash
+  while true
+  do
+      if ! screen -list | grep -q "ore"; then
+          echo "Screen session not found, restarting..."
+          start="ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --threads $THREADS"
+          screen -dmS ore bash -c "$start"
+      fi
+      sleep 10  # 每隔10秒检查一次
+  done' > monit.sh
+  ##给予执行权限
+  chmod +x monit.sh
+  # ================================================================================================================================
+  echo '[Unit]
+  Description=ore Monitor Service
+  After=network.target
+  
+  [Service]
+  Type=simple
+  ExecStart=/bin/bash /root/monit.sh
+  
+  [Install]
+  WantedBy=multi-user.target' > /etc/systemd/system/ore_monitor.service
+  sudo systemctl daemon-reload
+  sudo systemctl enable ore_monitor.service
+  sudo systemctl start ore_monitor.service
+  sudo systemctl status ore_monitor.service
+if screen -list | grep -q ore; then
+    echo ''
+    echo '重启完成'
+else
+    echo ''
+    echo "重启失败"
+fi
 ##删除此文件
 cd ~
 rm -f restart.sh
