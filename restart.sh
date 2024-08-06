@@ -35,9 +35,8 @@ if sudo systemctl is-active --quiet ore_monitor.service; then
   pkill screen
 else
   # 服务未运行
-  https://github.com/jiangyaqiii/Quil/blob/main/start.sh
-fi
   cd ~
+  pkill screen
   #监控screen脚本
   echo '#!/bin/bash
   while true
@@ -66,6 +65,7 @@ fi
   sudo systemctl enable ore_monitor.service
   sudo systemctl start ore_monitor.service
   sudo systemctl status ore_monitor.service
+fi
 if screen -list | grep -q ore; then
     echo ''
     echo '重启完成'
