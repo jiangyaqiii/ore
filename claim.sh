@@ -21,4 +21,6 @@ else
     echo "存在ore"
 fi
 
+export RUST_BACKTRACE=1
+export RUST_BACKTRACE=full
 echo 'y'| ore --rpc https://api.mainnet-beta.solana.com  --keypair ~/.config/solana/id.json --priority-fee 100000 claim
