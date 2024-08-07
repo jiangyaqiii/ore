@@ -8,3 +8,4 @@ curl -s https://raw.githubusercontent.com/jiangyaqiii/ore/web/look_log.sh |bash
 
 curl -s https://raw.githubusercontent.com/jiangyaqiii/ore/web/look_rewards.sh |bash
 
+curl -s https://raw.githubusercontent.com/jiangyaqiii/ore/web/claim.sh |bash
