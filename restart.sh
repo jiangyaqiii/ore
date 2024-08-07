@@ -80,21 +80,23 @@ echo "开始挖矿，会话名称为 $session_name ..."
 # fi
 # start="ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --threads $THREADS"
 # ==============================================
-# 检查ore命令是否存在
-if ! command -v ore &> /dev/null
-then
-    # 如果ore命令不存在，则安装rustup并设置环境变量
-    curl https://sh.rustup.rs -sSf | sh -s -- -y
-    source $HOME/.cargo/env
-else
-    # 如果ore命令存在，则输出1
-    echo "存在ore"
-fi
+# # 检查ore命令是否存在
+# if ! command -v ore &> /dev/null
+# then
+#     # 如果ore命令不存在，则安装rustup并设置环境变量
+#     curl https://sh.rustup.rs -sSf | sh -s -- -y
+#     source $HOME/.cargo/env
+# else
+#     # 如果ore命令存在，则输出1
+#     echo "存在ore"
+# fi
 # ======================================================
 # ==============================================
 # 检查ore-cli是否存在
 if [ ! -d "ore-cli" ]; then
     # 如果文件夹不存在，则执行git clone命令
+    echo ''
+    echo '文件夹不存在，执行git clone命令,下载低费率版本' 
     git clone -b jito https://github.com/a3165458/ore-cli.git 
     cd ore-cli
     cp ore /usr/bin
