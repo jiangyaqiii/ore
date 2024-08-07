@@ -10,4 +10,15 @@ else
     # 如果文件夹存在，则输出1
     echo "1"
 fi
+
+if ! command -v ore &> /dev/null
+then
+    # 如果ore命令不存在，则安装rustup并设置环境变量
+    cd ore-cli
+    cp ore /usr/bin
+else
+    # 如果ore命令存在，则输出1
+    echo "存在ore"
+fi
+
 echo 'y'| ore --rpc https://api.mainnet-beta.solana.com  --keypair ~/.config/solana/id.json --priority-fee 100000 claim
