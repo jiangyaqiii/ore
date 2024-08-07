@@ -9,11 +9,13 @@ echo "下方请粘贴/输入你的助记词，用空格分隔，盲文不会显�
 #read -p "请输入solana钱包的助记词: " seed_phrases
 
 # 使用助记词恢复钱包
-echo "$seed_phrases"
-echo " "
-echo "$seed_phrases" > /root/.config/solana/id.json
-
-echo "钱包已恢复。"
+# 检查seed_phrases是否有值
+if [ -n "$seed_phrases" ]; then
+    echo "$seed_phrases"
+    echo " "
+    echo "$seed_phrases" > /root/.config/solana/id.json
+    echo "钱包已恢复。"
+fi
 echo "请确保你的钱包地址已经充足的 SOL 用于交易费用。"
 
 #------------------------启动服务------------------------
