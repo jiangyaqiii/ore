@@ -20,7 +20,8 @@ echo "请确保你的钱包地址已经充足的 SOL 用于交易费用。"
 # 获取用户输入的 RPC 地址或使用默认地址
 #read -p "请输入自定义的 RPC 地址，建议使用免费的Quicknode 或者alchemy SOL rpc(默认设置使用 https://api.mainnet-beta.solana.com): " custom_rpc
 
-RPC_URL=${custom_rpc:-https://api.mainnet-beta.solana.com}
+# RPC_URL=${custom_rpc:-https://api.mainnet-beta.solana.com}
+RPC_URL=${custom_rpc:-https://node.onekey.so/sol}
 echo "$RPC_URL"
 echo " "
 THREADS=$(lscpu | grep "^CPU(s):" | awk '{print $2}')
@@ -90,7 +91,23 @@ else
     echo "存在ore"
 fi
 # ======================================================
-start="while true; do ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --threads $THREADS; echo '进程异常退出，等待重启' >&2; sleep 1; done"
+# ==============================================
+# 检查ore-cli是否存在
+if [ ! -d "ore-cli" ]; then
+    # 如果文件夹不存在，则执行git clone命令
+    git clone -b jito https://github.com/a3165458/ore-cli.git 
+    cd ore-cli
+    cp ore /usr/bin
+else
+    # 如果文件夹存在，则输出1
+    echo "1"
+fi
+# ==============================================
+
+# start="while true; do ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --threads $THREADS; echo '进程异常退出，等待重启' >&2; sleep 1; done"
+start="while true; do ore mine --rpc $RPC_URL --keypair ~/.config/solana/id.json --threads $THREADS --priority-fee $PRIORITY_FEE; echo '进程异常退出，等待重启' >&2; sleep 1; done"
+export RUST_BACKTRACE=1
+export RUST_BACKTRACE=full
 screen -dmS "ore" bash -c "$start"
 if screen -list | grep -q ore; then
     echo ''
