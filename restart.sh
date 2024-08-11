@@ -45,12 +45,12 @@ then
     echo "ore命令不存在，安装rustup并设置环境变量"
     curl https://sh.rustup.rs -sSf | sh -s -- -y
     cargo install ore-cli
-    source $HOME/.cargo/env
 else
     # 如果ore命令存在，则输出1
     echo ' '
     echo "存在ore命令"
 fi
+source $HOME/.cargo/env
 # ======================================================
 # ==============================================
 # 检查ore-cli是否存在
