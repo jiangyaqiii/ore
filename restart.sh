@@ -67,7 +67,7 @@ source $HOME/.cargo/env
 # fi
 # ==============================================
 
-start="while true; do ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine; echo '进程异常退出，等待重启' >&2; sleep 1; done"
+start="while true; do ore --rpc $RPC_URL --keypair ~/.config/solana/id.json --priority-fee $PRIORITY_FEE mine --cores $THREADS; echo '进程异常退出，等待重启' >&2; sleep 1; done"
 export RUST_BACKTRACE=1
 export RUST_BACKTRACE=full
 screen -dmS "ore" bash -c "$start"
