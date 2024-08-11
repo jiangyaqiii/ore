@@ -45,7 +45,7 @@ echo "请确保你的钱包地址已经充足的 SOL 用于交易费用。"
 
 # 安装 Ore CLI
 echo "正在安装 Ore CLI..."
-cargo install ore-cli
+cargo install ore-cli --version 2.1.0
 
 # 检查并将Solana的路径添加到 .bashrc，如果它还没有被添加
 grep -qxF 'export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"' ~/.bashrc || echo 'export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"' >> ~/.bashrc
